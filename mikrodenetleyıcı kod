@@ -1,0 +1,71 @@
+#include <Servo.h>
+#include <SoftwareSerial.h>
+
+const int fireSensorPin = 2; // Ateş sensörünün bağlı olduğu dijital pin
+const int servoPin = 7;      // Servo motorunun bağlı olduğu dijital pin
+Servo myServo;               // Servo motor nesnesi
+
+bool fireDetected = false;   // Ateş algılandı mı kontrolü için değişken
+
+// Bluetooth modülü için SoftwareSerial pinleri
+// Arduino RX pini <---> Bluetooth TX pini
+// Arduino TX pini <---> Bluetooth RX pini
+// Burada Arduino'da 10 pinini RX, 11 pinini TX olarak seçiyoruz
+SoftwareSerial SoftwareSerialTX(1,0); // RX, TX
+
+void setup() {
+  pinMode(fireSensorPin, INPUT); // Ateş sensörünü dijital giriş olarak ayarlıyoruz
+  myServo.attach(servoPin);      // Servo motoru bağlıyoruz
+  myServo.write(170);             // Servo motorunu 170 dereceye (kapalı pozisyon) ayarlıyoruz
+  Serial.begin(9600);            // Seri haberleşmeyi başlatıyoruz
+  SoftwareSerialTX.begin(9600);  // Bluetooth seri haberleşmesini başlatıyoruz
+  Serial.println("Sistem başlatıldı. Ateş algılamayı bekliyor...");
+}
+
+void loop() {
+  int sensorValue = digitalRead(fireSensorPin); // Ateş sensöründen dijital değer okuyoruz
+
+  if (sensorValue == LOW && !fireDetected) { // Eğer ateş algılandıysa (LOW durumu)
+    fireDetected = true;
+    myServo.write(180);  // Servo motorunu 180 dereceye (örneğin, söndürücü açma) döndürüyoruz
+    Serial.println("Ateş tespit edildi, söndürme çabası başladı 🔥🔥");
+    SoftwareSerialTX.println("Ateş tespit edildi");  // Bluetooth üzerinden mesaj gönder
+  }
+  else if (sensorValue == HIGH && fireDetected) { // Eğer ateş tespit edilmedi
+    fireDetected = false;
+    myServo.write(90); // Servo motorunu 90 dereceye (dinlenme pozisyonu) döndürüyoruz
+    Serial.println("Ateş yok, söndürme çabası sonlandı.");
+    SoftwareSerialTX.println("Ateş yok");  // Bluetooth üzerinden mesaj gönder
+  }
+
+  // Bluetooth üzerinden gelen veriyi kontrol et
+  if (SoftwareSerialTX.available()) {
+    String command = SoftwareSerialTX.readStringUntil('\n'); // Gelen komutu oku
+    command.trim(); // Sonundaki boşlukları temizle
+
+    if (command.equalsIgnoreCase("status")) {
+      // Mevcut ateş durumunu yanıtla
+      if (fireDetected) {
+        SoftwareSerialTX.println("Ateş tespit edildi");
+      } else {
+        SoftwareSerialTX.println("Ateş yok");
+      }
+    }
+  }
+
+  delay(500); // Bir yarım saniye bekliyoruz
+}
+
+/*
+Bağlantı notları:
+- Ateş sensörünün çıkışını Arduino dijital pin 2'ye bağlayın
+- Servo motorun sinyal kablosunu Arduino pin 7'ye bağlayın
+- Bluetooth modülünün pinlerini şu şekilde bağlayın:
+   Bluetooth TX -> Arduino pin 10 (Arduino RX)
+   Bluetooth RX -> Arduino pin 11 (Arduino TX)
+   Bluetooth VCC -> 5V (veya 3.3V, modüle bağlı olarak)
+   Bluetooth GND -> GND
+
+Önemli:
+RX ve TX pinleri Bluetooth ile Arduino arasında çapraz bağlanmalıdır.
+0 ve 1 pinleri, Arduino'nun USB üzerinden Seri monitör için kullanılır ve serbest bırakılmalıdır.
