@@ -1,9 +1,12 @@
 
-#TunceliFest AKS İOT tabanlı Ateş#
- #Kontrol Sistemi(AKS) projesi#
-      #kaynak kodları#
+   TUNCELİFEST-AKS PROJESİ
+   
+      ##kaynak kodları##
 
-Bu depoda önceden projenin sunnum linki vardı ancak od olduğundan herkes kullanamayabiir o yüzden buraya kodları değilde linki yazacağımhttps://gamma.app/docs/BLUETOOTH-KONTROLLU-YANGIN-SONDURME-SISTEMI--54x76lcr1zdhljj?mode=doc
+Bu depoda önceden projenin sunnum linki vardı ancak od olduğundan herkes kullanamayabiir o yüzden buraya kodları değilde linki yazacağım
+
+https://gamma.app/docs/BLUETOOTH-KONTROLLU-YANGIN-SONDURME-SISTEMI--54x76lcr1zdhljj?mode=doc
+
 link koyma sebebimiz ise daha detayli ve rahat anlaşılması
 
       
