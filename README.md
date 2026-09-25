@@ -21,8 +21,6 @@ BLUETOOTH-KONTROLLU-YANGIN-SONDURME-SISTEMI.pdf bizim sunum pdf'miz
 
 Yeni Zengin Metin belgesi dosyamız içinde gamma üzerindekk sunum linkimizi içerir ancak düzenlenen cihaz eskj olduğundan yenj cihazlardan tam çalişmayabilir readme.md dosyasına bakarak doğru sunumu bulabilirsiniz
 
-Geliştirici ile görüşmek mi istiyorsunjuz
-http://profosyonelyazilim.freeforums.net/
-Adresine bakabilirsiniz tamamen geliştirici tarafından proboards altyapısi kullanılarak yapıldı 
+
 PROJE ÖZGÜR ,AÇIK KAYNAK KODLU YAZILIMDIR 
 MUNZUR62 NİCKNAME İLE SERÇİYAN DENİZ MAK TAAFINDAN DİZAYN EDİLİP GELİŞTİRİLMİŞTİR
